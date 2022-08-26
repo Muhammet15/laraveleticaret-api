@@ -27,16 +27,13 @@ use App\Models\ProductImage;
 |
 */
 //public route
+Route::group(["prefix"=>"v1"],function(){
 
 Route::get('/home', [HomeController::class,'index'])->name('profile');
 Route::get('/kategori/{category:slug}', [FrontendCategoryController::class,'index']);
 
-Route::get('/giris',[AuthController::class,'signInForm'])->name('giris');
 Route::post('/giris',[AuthController::class,'signIn'])->name('girispost');
-
-Route::get('/uye-ol',[AuthController::class,'signUpForm'])->name('uyeol');
 Route::post('/uye-ol',[AuthController::class,'signUp'])->name('uyeolpost');
-
 Route::get('/cikis',[AuthController::class,'logout']);
 //private route
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -69,4 +66,5 @@ Route::group(["middleware"=>"auth:sanctum"],function()
     Route::get('products/{product}/images/{images_id}',[ProductImageController::class,'destroy'])->whereNumber('images_id')->name('images.destroy');
     Route::resource('/products/{product}/images',ProductImageController::class);
     // Route::get('/adres/{user_id}/address',[AddressController::class,'index'])->name("adres.create");
+});
 });
