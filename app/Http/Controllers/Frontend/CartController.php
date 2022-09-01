@@ -17,7 +17,7 @@ class CartController extends Controller
         if(Auth::user()->user_id===$cart->user_id)
         { 
             $carts = CartDetails::with('product')->where('cart_id',$cart->cart_id)->get();
-            return view("frontend.user.index",compact('carts'));
+            return $carts;
         }
         else{ 
             return view("frontend.user.index",compact('cart'));

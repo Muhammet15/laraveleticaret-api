@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 class HomeController extends Controller
 {
     public function index(){
+        
         $products = Product::all()->where("is_active",true);
         $categories = Category::all()->where("is_active",true);
         if($products == null && $categories ==null)

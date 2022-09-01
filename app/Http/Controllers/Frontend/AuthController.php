@@ -32,9 +32,10 @@ class AuthController extends Controller
         $data['is_active']=true;
         $data['password'] = bcrypt($request->password);
         $user=  User::create($data);
-        $token = $user->createToken("ecommerce")->plainTextToken;
-        $data=["tokenable_id"=>$user->user_id,
-        "token"=>$token];
+        $token = $user->createToken("ecommerce"); //->plainText();
+        $data=["user"=>$user->name,
+        "tokenable_id"=>$user->user_id,
+        "plaintext_token"=>$token->plainTextToken];
         return response($data,201);
     }
     public function logout()
