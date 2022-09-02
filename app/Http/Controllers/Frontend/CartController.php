@@ -17,7 +17,7 @@ class CartController extends Controller
         if(Auth::user()->user_id===$cart->user_id)
         { 
             $carts = CartDetails::with('product')->where('cart_id',$cart->cart_id)->get();
-            return $carts;
+            return response(["cart"=>$carts]);
         }
         else{ 
             return view("frontend.user.index",compact('cart'));
@@ -33,7 +33,11 @@ class CartController extends Controller
             ]
             );
             $details->save();
-            return redirect('/sepetim');
+            $data = [
+                "cart"=>$cart,
+                "details"=>$details
+            ];
+            return response($data);
     }
     private function getOrCreateCart() :Cart
     {
@@ -46,8 +50,9 @@ class CartController extends Controller
     }
 
     public function remove(CartDetails $cartDetails){
+        return "deleted";
         $cartDetails->delete();
-        return redirect('/sepetim');
+        return response();
     }
   
 }

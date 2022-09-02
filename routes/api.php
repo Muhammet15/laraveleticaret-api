@@ -34,7 +34,7 @@ Route::get('/kategori/{category:slug}', [FrontendCategoryController::class,'inde
 
 Route::post('/giris',[AuthController::class,'signIn'])->name('girispost');
 Route::post('/uye-ol',[AuthController::class,'signUp'])->name('uyeolpost');
-Route::get('/cikis',[AuthController::class,'logout']);
+Route::get('/cikis',[AuthController::class,'logout'])->name('logout');
 //private route
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -43,8 +43,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(["middleware"=>"auth:sanctum"],function()
 {
     Route::get('/sepetim',[CartController::class,'index']); 
-    Route::get('/sepete-ekle/{product}',[CartController::class,'add']);
-    Route::get('/sepete-sil/{cartDetails}',[CartController::class,'remove'])->name('remove');
+    Route::post('/sepete-ekle/{product}',[CartController::class,'add']);
+    Route::delete('/sepete-sil/{cartDetails}',[CartController::class,'remove'])->name('remove');
 
 });
 Route::group(["middleware"=>"auth:sanctum"],function()
