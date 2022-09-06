@@ -43,8 +43,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::group(["middleware"=>"auth:sanctum"],function()
 {
     Route::get('/sepetim',[CartController::class,'index']); 
-    Route::post('/sepete-ekle/{product}',[CartController::class,'add']);
-    Route::delete('/sepete-sil/{cartDetails}',[CartController::class,'remove'])->name('remove');
+    Route::post('/sepete-ekle',[CartController::class,'add']);
+    Route::delete('/sepete-sil',[CartController::class,'remove'])->name('remove');
 
 });
 Route::group(["middleware"=>"auth:sanctum"],function()

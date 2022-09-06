@@ -23,20 +23,27 @@ class CartController extends Controller
             return view("frontend.user.index",compact('cart'));
         }
     }
-    public function add(Product $product, int $quantity=1){
+    public function add(Request $request, int $quantity=1){
         $cart = $this->getOrCreateCart();
-        $details = new CartDetails(
-            [
-                'cart_id'=>$cart->cart_id,
-                'products_id'=>$product->products_id,
-                'quantity'=>$quantity,
-            ]
-            );
+        $product_id = $request->product_id; 
+        $quantity = $request->quantity;
+            $details = new CartDetails(
+                [
+                    'cart_id'=>$cart->cart_id,
+                    'products_id'=>$product_id,
+                    'quantity'=>$quantity,
+                ]);
+        try {
             $details->save();
             $data = [
                 "cart"=>$cart,
                 "details"=>$details
             ];
+
+        } catch (\Throwable $th) {
+            return response(["message"=>"böys"]);
+            
+        }
             return response($data);
     }
     private function getOrCreateCart() :Cart
@@ -49,10 +56,23 @@ class CartController extends Controller
         return $cart;
     }
 
-    public function remove(CartDetails $cartDetails){
-        return "deleted";
-        $cartDetails->delete();
-        return response();
+    private function getOrDetailCart()
+    {
+        $user = Auth::user();
+        $cart_detail = CartDetails::all();
+        return $cart_detail;
+    }
+    public function remove(Request $request){
+        CartDetails::find($request->cart_detail_id)->delete();
+        $cart_details = $this->getOrDetailCart();
+        $cart = $this->getOrCreateCart();
+        $data = [ 
+        'cart_details'=>$cart_details,
+        'cart'=>$cart,
+        'user'=>Auth::user()
+        ];
+        return response($data);
+        // ->delete();
     }
   
 }
