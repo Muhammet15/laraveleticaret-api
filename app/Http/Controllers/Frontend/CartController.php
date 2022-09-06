@@ -41,7 +41,7 @@ class CartController extends Controller
             ];
 
         } catch (\Throwable $th) {
-            return response(["message"=>"böys"]);
+            return response(["message"=>"yanlislik var"]);
             
         }
             return response($data);

@@ -30,7 +30,8 @@ use App\Models\ProductImage;
 Route::group(["prefix"=>"v1"],function(){
 
 Route::get('/home', [HomeController::class,'index'])->name('profile');
-Route::get('/kategori/{category:slug}', [FrontendCategoryController::class,'index']);
+Route::get('/kategori', [FrontendCategoryController::class,'index']);
+Route::post('/kategori/{slug}', [FrontendCategoryController::class,'getCategory']);
 
 Route::post('/giris',[AuthController::class,'signIn'])->name('girispost');
 Route::post('/uye-ol',[AuthController::class,'signUp'])->name('uyeolpost');
